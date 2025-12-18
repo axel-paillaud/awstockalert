@@ -54,6 +54,19 @@ class AwStockAlert extends Module
         ];
     }
 
+    public $tabs = [
+        [
+            'name' => [
+                'en' => 'Stock Alert',
+                'fr' => 'Alerte stock',
+            ],
+            'class_name' => 'AdminStockAlert',
+            'parent_class_name' => 'AdminParentCustomerThreads',
+            'wording' => 'Stock Alert',
+            'wording_domain' => 'Modules.Awstockalert.Admin',
+        ],
+    ];
+
     public function isUsingNewTranslationSystem()
     {
         return true;

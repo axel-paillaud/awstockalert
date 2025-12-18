@@ -1,0 +1,21 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block content %}
+  <div class="card">
+    <h3 class="card-header">
+      <i class="material-icons">notification_important</i> {{ 'Stock Alert - Send Email Notifications'|trans({}, 'Modules.Awstockalert.Admin') }}
+    </h3>
+    <div class="card-body">
+      <div class="alert alert-info">
+        <p class="mb-0">
+          {{ 'This page allows you to send email notifications to customers whose orders contain out-of-stock products.'|trans({}, 'Modules.Awstockalert.Admin') }}
+        </p>
+      </div>
+
+      <div class="form-wrapper">
+        {# Future: Add product selection and send email functionality here #}
+        <p>{{ 'Select a product to check orders and send notifications.'|trans({}, 'Modules.Awstockalert.Admin') }}</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

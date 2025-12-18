@@ -6,3 +6,12 @@ awstockalert_form_configuration:
     # Needed to work with tab system
     _legacy_controller: AdminAwStockAlert
     _legacy_link: AdminAwStockAlert
+
+awstockalert_stock_alert:
+  path: /awstockalert/stock-alert
+  methods: [GET]
+  defaults:
+    _controller: 'Axelweb\AwStockAlert\Controller\AdminStockAlertController::index'
+    # Needed to work with tab system
+    _legacy_controller: AdminStockAlert
+    _legacy_link: AdminStockAlert
