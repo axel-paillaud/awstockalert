@@ -1,4 +1,4 @@
-awmodulebase_form_configuration:
+awstockalert_form_configuration:
   path: /awstockalert/configuration
   methods: [GET, POST]
   defaults:
