@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace Axelweb\AwModuleBase\Form;
+namespace Axelweb\AwStockAlert\Form;
 
 use PrestaShop\PrestaShop\Core\Configuration\DataConfigurationInterface;
 use PrestaShop\PrestaShop\Core\Form\FormDataProviderInterface;
