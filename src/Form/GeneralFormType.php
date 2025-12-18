@@ -44,7 +44,7 @@ class GeneralFormType extends TranslatorAwareType
                     new Assert\Type(['type' => 'numeric']),
                 ],
                 'attr' => [
-                    'class' => 'fixed-width-xl',
+                    'class' => 'w-auto',
                 ],
             ]);
     }
