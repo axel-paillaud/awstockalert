@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace Axelweb\AwStockAlert\Form;
 
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,18 +31,38 @@ class GeneralFormType extends TranslatorAwareType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $orderStates = $this->getOrderStates();
+
         $builder
-            ->add('sample_config', TextType::class, [
-                'label' => $this->trans('Sample configuration', 'Modules.Awstockalert.Admin'),
-                'help' => $this->trans('Example configuration field', 'Modules.Awstockalert.Admin'),
-                'required' => false,
+            ->add('order_state_to_check', ChoiceType::class, [
+                'label' => $this->trans('Order status before checking if an order contains product X', 'Modules.Awstockalert.Admin'),
+                'help' => $this->trans('Only check orders with the chosen status', 'Modules.Awstockalert.Admin'),
+                'choices' => $orderStates,
+                'required' => true,
                 'constraints' => [
-                    new Assert\Length(['max' => 255]),
+                    new Assert\NotBlank(),
+                    new Assert\Type(['type' => 'numeric']),
                 ],
                 'attr' => [
-                    'placeholder' => 'Example value',
-                    'autocomplete' => 'off',
+                    'class' => 'fixed-width-xl',
                 ],
             ]);
+    }
+
+    /**
+     * Get order states for dropdown
+     *
+     * @return array
+     */
+    private function getOrderStates(): array
+    {
+        $states = \OrderState::getOrderStates((int) \Context::getContext()->language->id);
+        $choices = [];
+
+        foreach ($states as $state) {
+            $choices[$state['name']] = (int) $state['id_order_state'];
+        }
+
+        return $choices;
     }
 }

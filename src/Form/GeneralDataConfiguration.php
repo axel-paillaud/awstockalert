@@ -30,7 +30,7 @@ use PrestaShop\PrestaShop\Core\ConfigurationInterface;
  */
 final class GeneralDataConfiguration implements DataConfigurationInterface
 {
-    public const AWSTOCKALERT_SAMPLE_CONFIG = 'AWSTOCKALERT_SAMPLE_CONFIG';
+    public const AWSTOCKALERT_ORDER_STATE_TO_CHECK = 'AWSTOCKALERT_ORDER_STATE_TO_CHECK';
 
     /**
      * @var ConfigurationInterface
@@ -45,7 +45,7 @@ final class GeneralDataConfiguration implements DataConfigurationInterface
     public function getConfiguration(): array
     {
         return [
-            'sample_config' => (string) $this->configuration->get(static::AWSTOCKALERT_SAMPLE_CONFIG),
+            'order_state_to_check' => (int) $this->configuration->get(static::AWSTOCKALERT_ORDER_STATE_TO_CHECK),
         ];
     }
 
@@ -54,17 +54,22 @@ final class GeneralDataConfiguration implements DataConfigurationInterface
         $errors = [];
 
         // Quick normalisation
-        $sampleConfig = isset($configuration['sample_config']) ? trim((string) $configuration['sample_config']) : '';
+        $orderStateToCheck = isset($configuration['order_state_to_check']) ? (int) $configuration['order_state_to_check'] : 0;
 
-        if (!$this->validateConfiguration(['sample_config' => $sampleConfig])) {
+        if (!$this->validateConfiguration(['order_state_to_check' => $orderStateToCheck])) {
             $errors[] = 'Invalid configuration payload.';
 
             return $errors;
         }
 
-        // Validation (exemple)
-        if ($sampleConfig !== '' && \strlen($sampleConfig) > 255) {
-            $errors[] = 'Sample configuration is too long.';
+        // Validation
+        if ($orderStateToCheck <= 0) {
+            $errors[] = 'Order state must be selected.';
+        }
+
+        // Verify that the order state exists
+        if ($orderStateToCheck > 0 && !\Validate::isLoadedObject(new \OrderState($orderStateToCheck))) {
+            $errors[] = 'Selected order state does not exist.';
         }
 
         if (!empty($errors)) {
@@ -72,7 +77,7 @@ final class GeneralDataConfiguration implements DataConfigurationInterface
         }
 
         // Persist
-        $this->configuration->set(static::AWSTOCKALERT_SAMPLE_CONFIG, $sampleConfig);
+        $this->configuration->set(static::AWSTOCKALERT_ORDER_STATE_TO_CHECK, $orderStateToCheck);
 
         // empty = ok
         return $errors;
@@ -85,6 +90,6 @@ final class GeneralDataConfiguration implements DataConfigurationInterface
      */
     public function validateConfiguration(array $configuration): bool
     {
-        return isset($configuration['sample_config']);
+        return isset($configuration['order_state_to_check']);
     }
 }

@@ -28,7 +28,7 @@ use PrestaShop\PrestaShop\Core\Form\FormDataProviderInterface;
 /**
  * Provides form data to the Symfony form from the configuration storage.
  * Keys expected/provided:
- *  - sample_config : string
+ *  - order_state_to_check : int
  */
 class GeneralFormDataProvider implements FormDataProviderInterface
 {
@@ -43,7 +43,7 @@ class GeneralFormDataProvider implements FormDataProviderInterface
     }
 
     /**
-     * @return array{sample_config:string}
+     * @return array{order_state_to_check:int}
      */
     public function getData(): array
     {
@@ -51,7 +51,7 @@ class GeneralFormDataProvider implements FormDataProviderInterface
     }
 
     /**
-     * @param array{sample_config?:string} $data
+     * @param array{order_state_to_check?:int} $data
      *
      * @return array<string> List of error messages (empty if success)
      */
