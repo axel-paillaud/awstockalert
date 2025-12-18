@@ -12,10 +12,68 @@
         </p>
       </div>
 
-      <div class="form-wrapper">
-        {# Future: Add product selection and send email functionality here #}
-        <p>{{ 'Select a product to check orders and send notifications.'|trans({}, 'Modules.Awstockalert.Admin') }}</p>
+      <form id="stock-alert-search-form" method="post">
+        <div class="form-group">
+          <label for="product-search">{{ 'Search for a product'|trans({}, 'Modules.Awstockalert.Admin') }}</label>
+          <div class="input-group search search-with-icon">
+            <input 
+              type="text" 
+              id="product-search" 
+              class="form-control search-input" 
+              placeholder="{{ 'Start typing product name or reference...'|trans({}, 'Modules.Awstockalert.Admin') }}"
+              autocomplete="off"
+            >
+            <div class="input-group-append">
+              <button type="button" class="btn btn-outline-secondary" id="clear-search">
+                <i class="material-icons">clear</i>
+              </button>
+            </div>
+          </div>
+          
+          {# Dropdown for search results #}
+          <div id="product-results" class="ps-dropdown dropdown bordered" style="display: none;">
+            <div class="ps-dropdown-menu dropdown-menu show w-100" style="max-height: 300px; overflow-y: auto;">
+              {# Results will be populated via Ajax #}
+            </div>
+          </div>
+          
+          {# Hidden field to store selected product ID #}
+          <input type="hidden" id="selected-product-id" name="product_id" value="">
+          
+          {# Selected product display #}
+          <div id="selected-product" class="alert alert-success mt-3" style="display: none;">
+            <strong>{{ 'Selected product:'|trans({}, 'Modules.Awstockalert.Admin') }}</strong>
+            <span id="selected-product-name"></span>
+            <button type="button" class="close" id="remove-selected-product">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" id="check-orders-btn" disabled>
+            <i class="material-icons">search</i>
+            {{ 'Check orders with this product'|trans({}, 'Modules.Awstockalert.Admin') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {# Card 2: Results (will be shown after form submission) #}
+  <div id="orders-results-card" class="card mt-3" style="display: none;">
+    <h3 class="card-header">
+      <i class="material-icons">list_alt</i> {{ 'Orders found'|trans({}, 'Modules.Awstockalert.Admin') }}
+    </h3>
+    <div class="card-body">
+      <div id="orders-results-content">
+        {# Results will be populated here #}
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('../modules/awstockalert/views/js/admin/stock-alert.js') }}"></script>
 {% endblock %}
