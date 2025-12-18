@@ -67,7 +67,7 @@ class AwStockAlert extends Module
 
         $installed = parent::install()
             && $this->installDb()
-            && Configuration::updateValue('AWSTOCKALERT_SAMPLE_CONFIG', '');
+            && Configuration::updateValue('AWSTOCKALERT_ORDER_STATE_TO_CHECK', (int) _PS_OS_PREPARATION_);
 
         // Prevent 'Unable to generate a URL for the named route [...]' error,
         // clear Symfony cache
@@ -81,7 +81,7 @@ class AwStockAlert extends Module
     public function uninstall(): bool
     {
         return parent::uninstall()
-            && Configuration::deleteByName('AWSTOCKALERT_SAMPLE_CONFIG')
+            && Configuration::deleteByName('AWSTOCKALERT_ORDER_STATE_TO_CHECK')
             && $this->uninstallDb();
     }
 
