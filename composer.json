@@ -1,6 +1,6 @@
 {
-  "name": "axelweb/awmodulebase",
-  "description": "PrestaShop module base template for development",
+  "name": "axelweb/awstockalert",
+  "description": "Check if an order contains product X, and, if so, automatically send an email to the customer.",
   "type": "prestashop-module",
   "license": "AFL-3.0",
   "authors": [
@@ -11,11 +11,11 @@
   ],
   "autoload": {
     "psr-4": {
-      "Axelweb\\AwModuleBase\\": "src/"
+      "Axelweb\\AwStockAlert\\": "src/"
     }
   },
   "require": {
-    "php": ">=7.1"
+    "php": ">=7.4"
   },
   "config": {
     "prepend-autoloader": false

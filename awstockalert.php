@@ -29,11 +29,11 @@ if (!defined('_PS_VERSION_')) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-class AwModuleBase extends Module
+class AwStockAlert extends Module
 {
     public function __construct()
     {
-        $this->name = 'awmodulebase';
+        $this->name = 'awstockalert';
         $this->tab = 'administration';
         $this->version = '1.0.0';
         $this->author = 'Axelweb';
@@ -43,10 +43,10 @@ class AwModuleBase extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->trans('Axelweb - Module Base', [], 'Modules.Awmodulebase.Admin');
-        $this->description = $this->trans('Base template module for PrestaShop development', [], 'Modules.Awmodulebase.Admin');
+        $this->displayName = $this->trans('Stock Alert', [], 'Modules.Awstockalert.Admin');
+        $this->description = $this->trans('Check if an order contains product X, and, if so, automatically send an email to the customer.', [], 'Modules.Awstockalert.Admin');
 
-        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Awmodulebase.Admin');
+        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?', [], 'Modules.Awstockalert.Admin');
 
         $this->ps_versions_compliancy = [
             'min' => '8.0',
@@ -67,8 +67,7 @@ class AwModuleBase extends Module
 
         $installed = parent::install()
             && $this->installDb()
-            && $this->registerHook('actionFrontControllerSetMedia')
-            && Configuration::updateValue('AWMODULEBASE_SAMPLE_CONFIG', '');
+            && Configuration::updateValue('AWSTOCKALERT_SAMPLE_CONFIG', '');
 
         // Prevent 'Unable to generate a URL for the named route [...]' error,
         // clear Symfony cache
@@ -82,7 +81,7 @@ class AwModuleBase extends Module
     public function uninstall(): bool
     {
         return parent::uninstall()
-            && Configuration::deleteByName('AWMODULEBASE_SAMPLE_CONFIG')
+            && Configuration::deleteByName('AWSTOCKALERT_SAMPLE_CONFIG')
             && $this->uninstallDb();
     }
 
@@ -107,31 +106,7 @@ class AwModuleBase extends Module
      */
     public function getContent(): void
     {
-        $route = $this->get('router')->generate('awmodulebase_form_configuration');
+        $route = $this->get('router')->generate('awstockalert_form_configuration');
         Tools::redirectAdmin($route);
-    }
-
-    /**
-     * Hook to register CSS and JS on front-office pages
-     */
-    public function hookActionFrontControllerSetMedia()
-    {
-        $this->context->controller->registerStylesheet(
-            'module-awmodulebase-style',
-            'modules/' . $this->name . '/views/css/awmodulebase.css',
-            [
-                'media' => 'all',
-                'priority' => 200,
-            ]
-        );
-
-        $this->context->controller->registerJavascript(
-            'module-awmodulebase-script',
-            'modules/' . $this->name . '/views/js/awmodulebase.js',
-            [
-                'position' => 'bottom',
-                'priority' => 200,
-            ]
-        );
     }
 }
