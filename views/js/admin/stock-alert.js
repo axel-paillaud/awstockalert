@@ -39,12 +39,7 @@ $(document).ready(function() {
     }, 300);
   });
   
-  // Clear search
-  $('#clear-search').on('click', function() {
-    $('#product-search').val('');
-    $('#product-results').hide();
-  });
-  
+
   // Remove selected product
   $('#remove-selected-product').on('click', function() {
     $('#selected-product').hide();
